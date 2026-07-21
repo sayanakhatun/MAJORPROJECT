@@ -1,0 +1,70 @@
+<% layout("layout/boilerplate") %>
+   <div class="row mt-1">
+      <div class="col-8 offset-2">
+         <h3>Edit your Listing</h3>
+         <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="need-validation"
+            enctype="multipart/form-data">
+
+            <div class="mb-3">
+               <label for="title" class=" col-sm-2-col-form-label">Title</label>
+               <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required />
+            </div>
+
+
+            <div class="mb-3">
+               <label for="description" class="col-sm-2-col-form-label">description</label>
+               <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
+            </div>
+
+            <div class="mb-3">
+               Original Listing Image <br>
+               <img src="<%=originalImageUrl%>" alt="">
+            </div>
+            <div class="mb-3">
+               <label for="image" class="col-sm-2-col-form-label">Upload New image</label>
+               <input name="listing[image]" type="file" class="form-control" />
+            </div>
+
+            <div class="row">
+               <div class="mb-3 col-md-4">
+                  <label for="price" class="col-sm-2-col-form-label">price</label>
+                  <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
+               </div>
+
+               <div class="mb-3 col-md-8">
+                  <label for="country" class="col-sm-2-col-form-label">country</label>
+                  <input name="listing[country]" value="<%= listing.country%>" type="text" class="form-control"
+                     required />
+               </div>
+            </div>
+
+
+            <div class="mb-3">
+               <label for="location" class="col-sm-2-col-form-label">location</label>
+               <input name="listing[location]" value="<%= listing.location%>" type="text" class="form-control"
+                  required />
+            </div>
+            <div>
+               <% const categories=[ ["Trending","🔥 Trending"], ["Beach","🏖️ Beach"], ["Mountains","🏔️ Mountains"],
+                  ["Camping","🏕️ Camping"], ["Cabins","🏡 Cabins"], ["Rooms","🛏️ Rooms"], ["Forest","🌳 Forest"],
+                  ["Lakefront","🌊 Lakefront"], ["City","🏙️ City"], ["Luxury","💎 Luxury"], ["Arctic","❄️ Arctic"],
+                  ["Castles","🏰 Castles"], ["Hidden Gems","💎 Hidden Gems"], ["Workation","💻 Workation"],
+                  ["Romantic","❤️ Romantic"], ["Eco Stay","🌿 Eco Stay"] ]; %>
+
+                  <div class="mb-3">
+                     <label for="category" class="form-label">Category</label>
+
+                     <select id="category" name="listing[category]" class="form-select" required>
+                        <% categories.forEach(cat=> { %>
+                           <option value="<%= cat[0] %>" <%=listing.category===cat[0] ? "selected" : "" %>>
+                              <%= cat[1] %>
+                           </option>
+                           <% }) %>
+                     </select>
+                  </div>
+            </div>
+
+            <button class="btn btn-dark edit-btn mt-4">edit</button>
+         </form>
+      </div>
+   </div>

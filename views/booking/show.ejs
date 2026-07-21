@@ -1,0 +1,80 @@
+<% layout("/layout/boilerplate") %>
+  <link rel="stylesheet" href="/css/trip.css">
+
+  <div class="card booking-card mt-4">
+
+
+    <img src="<%= booking.listing?.image?.url || 'https://via.placeholder.com/400' %>" class="card-img-top"
+      style="height:350px; object-fit:cover;">
+
+    <div class="card-body">
+
+      <h2 class="booking-title">
+        <%= booking.listing.title %>
+      </h2>
+
+      <p class="location">
+        📍 <%= booking.listing.location %>,
+          <%= booking.listing.country %>
+      </p>
+
+      <hr>
+      <div class="info-box">
+
+        <h4 class="mb-3">Booking Details</h4>
+
+        <p>📅 <strong>Check-in:</strong>
+          <%= booking.checkIn.toDateString() %>
+        </p>
+
+        <p>📅 <strong>Check-out:</strong>
+          <%= booking.checkOut.toDateString() %>
+        </p>
+
+        <p>👥 <strong>Guests:</strong>
+          <%= booking.guests %>
+        </p>
+
+        <p class="price">
+          ₹<%= booking.totalPrice.toLocaleString("en-IN") %>
+        </p>
+
+        <span class="badge bg-success status-badge">
+          <%= booking.status %>
+        </span>
+
+      </div>
+
+
+      <br><br>
+
+    </div>
+    <div class="booking-actions">
+
+      <a href="/booking/my-trips" class="btn-Back-to-Trips">
+        Back to Trips
+      </a>
+
+      <% if(booking.status !=="Cancelled" ){ %>
+
+        <form action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
+
+          <button class="btn-cancel">
+            Cancel Booking
+          </button>
+
+        </form>
+
+        <% } else { %>
+
+          <span class="booking-cancelled">
+            Booking Cancelled
+          </span>
+
+          <% } %>
+
+    </div>
+
+  </div>
+
+  </div>

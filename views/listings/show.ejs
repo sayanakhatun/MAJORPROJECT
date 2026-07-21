@@ -1,0 +1,311 @@
+<% layout("layout/boilerplate") %>
+  <script>
+  window.mapToken = "<%= mapToken %>";
+  window.coordinates = <%- JSON.stringify(listing.geometry?.coordinates || []) %>;
+  window.listingTitle = "<%= listing.title %>";
+</script>
+
+  <div class="row">
+    <div class="col-8 offset-3 mt-3">
+      <h3>
+        <%=listing.title%>:
+      </h3>
+    </div>
+
+    <div class="card col-6 offset-3 show-card listing-card">
+      <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+      
+      <div class="card-body">
+
+        <br>
+        <div class="listing-actions">
+
+          <span class="category-badge">
+            <i class="fa-solid fa-tag"></i>
+            <%= listing.category %>
+          </span>
+
+          <div class="d-flex gap-2">
+
+            <form action="/listings/<%= listing._id %>/wishlist" method="POST">
+
+              <button type="submit" class="action-btn">
+                <% if(isSaved){ %>
+                  <i class="fa-solid fa-heart text-danger"></i>
+                  <% } else { %>
+                    <i class="fa-regular fa-heart"></i>
+                    <% } %>
+
+                      Save
+              </button>
+
+            </form>
+
+            <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#shareModal">
+              <i class="fa-solid fa-share-nodes"></i>
+              Share
+            </button>
+
+          </div>
+        </div>
+        <br>
+        <p class="card-text"><i class="fa-regular fa-circle-user"></i> Hosted by
+          <strong>
+            <%= listing.owner.username %>
+          </strong>
+        </p>
+        <p class="card-text mb-3">
+          <i class="fa-solid fa-map-marker-alt"></i>
+          <%= listing.location %>,
+            <%= listing.country %>
+        </p>
+
+
+        <h5 class="fw-bold mt-3">
+          Description
+        </h5>
+        <p class="card-text">
+          <%= listing.description%>
+        </p>
+
+        <h3 class="price">
+          ₹
+          <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>
+            <small class="text-muted fs-6">/ night</small>
+        </h3>
+        <div class="action-icons">
+          <button class="reserve-btn" data-bs-toggle="modal" data-bs-target="#bookingModal">
+
+            Reserve Now
+
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <% if(currUser && listing.owner._id.equals(currUser._id)){ %>
+
+      <div class="btns">
+        <a href="/listings/<%= listing._id %>/edit" class="btn edit-btn col-1 offset-3">Edit </a>
+
+        <form method="POST" action="/listings/<%= listing._id%>?_method=DELETE">
+          <button class="btn btn-dark offset-4">Delete</button>
+        </form>
+
+      </div>
+      <%}%>
+        <div class="col-8 offset-3">
+
+          <% if(currUser){ %>
+            <hr>
+            <h4>Leave a Review</h4>
+
+            <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
+
+
+              <!-- <div class="mb-3 mt-3">
+    <label for="rating" class="form-label">Rating</label>
+    <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+    </div>-->
+
+              <div class="mb-3 mt-3">
+                <label for="rating" class="form-label">Rating</label>
+                <fieldset class="starability-slot">
+
+
+                  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                    aria-label="No rating." />
+
+                  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                  <label for="first-rate1" title="Terrible">1 star</label>
+                  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                  <label for="first-rate2" title="Not good">2 stars</label>
+                  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                  <label for="first-rate3" title="Average">3 stars</label>
+                  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                  <label for="first-rate4" title="Very good">4 stars</label>
+                  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                  <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="comment" class="form-label">Comments</label>
+                <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control"
+                  required></textarea>
+                <div class="invalid-feedback">Please submit some comment for review</div>
+              </div>
+
+              <button class="btn btn-outline-dark">Submit</button>
+            </form>
+            <hr>
+            <%}%>
+
+              <% if(listing.reviews.length> 0) { %>
+                <div class="row">
+                  <p><b>All Reviews</b></p>
+                  <% for(review of listing.reviews){ %>
+                    <div class="card col-5 ms-3 mb-3">
+                      <div class="card-body">
+                        <h5 class="card-title">@<%= review.author.username %>
+                        </h5>
+                        <p class="card-text">
+                          <%= review.comment%>
+                        </p>
+                        <!-- <p class="card-text"><%= review.rating%> stars</p> -->
+                        <p class="starability-result card-text" data-rating="<%= review.rating %>">
+                          <%= review.rating %>
+                        </p>
+                        <form class="mb-3" method="POST"
+                          action="/listings/<%= listing._id%>/reviews/<%=review._id%>?_method=DELETE">
+                          <button class="btn btn-sm btn-dark"> Delete</button>
+                        </form>
+
+                      </div>
+                    </div>
+                    <% } %>
+
+                </div>
+                <% } %>
+                  <div class="card col-3 ms-1 mb-3">
+                    <h3>Where you'll be</h3>
+                    <div id="map"></div>
+                  </div>
+
+        </div>
+
+
+        <div class="modal fade" id="bookingModal">
+
+          <div class="modal-dialog">
+
+            <div class="modal-content">
+
+              <form action="/listings/<%= listing._id %>/booking" method="POST">
+
+                <div class="modal-header">
+
+                  <h5>Reserve</h5>
+
+                  <button class="btn-close" data-bs-dismiss="modal">
+                  </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <label>Check In</label>
+
+                  <input type="date" name="checkIn" class="form-control" required>
+
+                  <br>
+
+                  <label>Check Out</label>
+
+                  <input type="date" name="checkOut" class="form-control" required>
+
+                  <br>
+
+                  <label>Guests</label>
+
+                  <input type="number" name="guests" min="1" value="1" class="form-control">
+
+                </div>
+
+                <div class="modal-footer">
+
+                  <button class="btn btn-danger">
+
+                    Confirm Booking
+
+                  </button>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+  </div>
+  <div class="modal fade" id="shareModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-share-nodes"></i>
+            Share this listing
+          </h5>
+
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="d-grid gap-3">
+
+            <button class="btn btn-outline-dark" id="copyLink">
+              <i class="fa-solid fa-link"></i>
+              Copy Link
+            </button>
+
+            <a id="whatsappShare" target="_blank" class="btn btn-success">
+              <i class="fa-brands fa-whatsapp"></i>
+              WhatsApp
+            </a>
+
+            <a id="facebookShare" target="_blank" class="btn btn-primary">
+              <i class="fa-brands fa-facebook"></i>
+              Facebook
+            </a>
+
+            <a id="twitterShare" target="_blank" class="btn btn-dark">
+              <i class="fa-brands fa-x-twitter"></i>
+              X (Twitter)
+            </a>
+
+            <a id="gmailShare" target="_blank" class="btn btn-danger">
+              <i class="fa-solid fa-envelope"></i>
+              Gmail
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script>
+
+    const pageURL = window.location.href;
+
+    document.getElementById("copyLink").onclick = async () => {
+
+      await navigator.clipboard.writeText(pageURL);
+
+      alert("Link copied!");
+
+    };
+
+    const text = encodeURIComponent("Check out this amazing stay on Wonderlust!");
+
+    document.getElementById("whatsappShare").href =
+      `https://wa.me/?text=${text}%20${pageURL}`;
+
+    document.getElementById("facebookShare").href =
+      `https://www.facebook.com/sharer/sharer.php?u=${pageURL}`;
+
+    document.getElementById("twitterShare").href =
+      `https://twitter.com/intent/tweet?text=${text}&url=${pageURL}`;
+
+    document.getElementById("gmailShare").href =
+      `mailto:?subject=Wonderlust Listing&body=${text}%20${pageURL}`;
+
+  </script>
+  
+  <script src="/js/map.js"></script>

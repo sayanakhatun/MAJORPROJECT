@@ -1,0 +1,66 @@
+<% layout("layout/boilerplate") %>
+  <link rel="stylesheet" href="/css/trip.css">
+
+  <h2 class="my-trips-heading">
+    My Trips ✈️
+  </h2>
+
+  <div class="row trips-container">
+
+    <% bookings.forEach(booking=>{ %>
+      <% if (booking.listing) { %>
+
+
+        <div class="col-md-6 mb-4">
+
+          <div class="trip-card">
+
+            <img src="<%= booking.listing.image.url %>" class="w-100" />
+
+
+            <div class="trip-body">
+
+              <div class="trip-title">
+                <%= booking.listing.title %>
+              </div>
+
+
+              <div class="trip-info">
+                📅
+                <%= booking.checkIn.toDateString() %>
+                  -
+                  <%= booking.checkOut.toDateString() %>
+              </div>
+
+
+              <div class="trip-info">
+                👥 Guests:
+                <%= booking.guests %>
+              </div>
+
+
+              <div class="trip-price">
+                ₹<%= booking.totalPrice.toLocaleString("en-IN") %>
+              </div>
+
+
+              <div class="status-badge">
+                ✓ <%= booking.status %>
+              </div>
+
+
+              <a href="/booking/<%= booking._id %>" class="btn-view-Details">
+                View Details
+              </a>
+
+            </div>
+
+
+          </div>
+
+        </div>
+        <% } %>
+
+          <% }) %>
+
+  </div>

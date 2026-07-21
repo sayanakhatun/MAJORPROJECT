@@ -1,0 +1,78 @@
+<% layout("layout/boilerplate") %>
+  <div class="row">
+    <div class="col-8 offset-2">
+      <h3>Create a New Listing</h3>
+      <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="col-sm-2-col-form-label">Title</label>
+          <input name="listing[title]" placeholder="Add a catchy title" type="text" class="form-control" required>
+          <div class="valid-feedback">Looks good!</div>
+
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+
+          <textarea name="listing[description]" class="form-control" placeholder="Enter description"
+            required></textarea>
+
+          <div class="invalid-feedback">
+            Please enter a short description.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="col-sm-2-col-form-label">Upload Listing Image</label>
+          <input name="listing[image]" type="file" class="form-control" required>
+
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="price" class="col-sm-2-col-form-label">price</label>
+            <input name="listing[price]" placeholder="1200" type="number" class="form-control" required>
+            <div class="valid-feedback">Please enter a valid Price!</div>
+
+          </div>
+
+          <div class="mb-3 col-md-8">
+            <label for="country" class="col-sm-2-col-form-label">country</label>
+            <input name="listing[country]" placeholder="india" type="text" class="form-control" required>
+            <div class="valid-feedback">country name should be valid!</div>
+
+          </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+
+            <select name="listing[category]" class="form-select" required>
+              <option value="" selected disabled>Select a category</option>
+              <option value="Trending">🔥 Trending</option>
+              <option value="Beach">🏖️ Beach</option>
+              <option value="Mountains">🏔️ Mountains</option>
+              <option value="Camping">🏕️ Camping</option>
+              <option value="Cabins">🏡 Cabins</option>
+              <option value="Rooms">🛏️ Rooms</option>
+              <option value="Forest">🌳 Forest</option>
+              <option value="Lakefront">🌊 Lakefront</option>
+              <option value="City">🏙️ City</option>
+              <option value="Luxury">💎 Luxury</option>
+              <option value="Arctic">❄️ Arctic</option>
+              <option value="Castles">🏰 Castles</option>
+              <option value="Hidden Gems">💎 Hidden Gems</option>
+              <option value="Workation">💻 Workation</option>
+              <option value="Romantic">❤️ Romantic</option>
+              <option value="Eco Stay">🌿 Eco Stay</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="location" class="col-sm-2-col-form-label">location</label>
+            <input name="listing[location]" placeholder="jaipur,Rajisthan" type="text" class="form-control" required>
+            <div class="valid-feedback">location name should be valid!</div>
+          </div>
+
+        </div>
+
+        <button class="btn btn-dark add-btn">Add</button>
+        <br><br>
+      </form>
+    </div>
+  </div>

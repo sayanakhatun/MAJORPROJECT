@@ -1,0 +1,72 @@
+<style>
+  .listing-link{
+    text-decoration:none;
+    color:black;
+}
+
+.listing-card{
+    border:none;
+    transition:0.3s;
+}
+
+.listing-card:hover{
+    transform: translateY(-5px);
+}
+</style>
+<% layout("/layout/boilerplate") %>
+
+  <div class="container mt-4">
+
+    <h2 class="mb-4">Search Results</h2>
+
+    <div class="row">
+
+      <% if(listings.length===0){ %>
+
+        <div class="alert alert-warning">
+          No listings found 😔
+        </div>
+
+        <% } %>
+
+
+          <% listings.forEach(listing=> { %>
+
+            <div class="col-md-4 mb-4">
+
+              <a href="/listings/<%= listing._id %>" class="listing-link">
+
+                <div class="card listing-card">
+
+                  <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image"
+                    style="height:250px; object-fit:cover;">
+
+                  <div class="card-body">
+
+                    <h5 class="card-title">
+                      <%= listing.title %>
+                    </h5>
+
+                    <p class="card-text">
+                      <%= listing.location %>,
+                        <%= listing.country %>
+                    </p>
+
+                    <p>
+                      ₹ <%= listing.price %> / night
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </a>
+
+            </div>
+
+
+            <% }) %>
+
+    </div>
+
+  </div>

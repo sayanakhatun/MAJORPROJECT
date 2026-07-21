@@ -1,0 +1,94 @@
+
+
+/* Heading */
+.container h2{
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 30px;
+}
+
+/* Cards */
+.card{
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  
+}
+
+.card:hover{
+    transform: translateY(-8px);
+   
+}
+
+/* Image */
+.card-img-top{
+    height: 220px !important;
+    object-fit: cover;
+    transition: transform .4s ease;
+}
+
+.card:hover .card-img-top{
+    transform: scale(1.05);
+}
+
+/* Card Body */
+.card-body{
+    padding: 18px;
+}
+
+/* Listing Title */
+.card-body h5{
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+/* Location */
+.card-body p{
+    color: #666;
+    font-size: .95rem;
+    margin-bottom: 12px;
+}
+
+/* Price */
+.card-body h6{
+    color: #ff385c !important;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Remove underline */
+a{
+    text-decoration: none !important;
+}
+
+/* Empty Wishlist */
+.alert-warning{
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: center;
+    border-radius: 15px;
+    padding: 18px;
+    font-size: 1.1rem;
+    border: none;
+    /* background: #fff3cd; */
+    /* color: #856404; */
+    /* box-shadow: 0 8px 20px rgba(0,0,0,.08); */
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+    .container h2{
+        font-size:1.8rem;
+        text-align:center;
+    }
+
+    .card{
+        margin-bottom:20px;
+    }
+
+}

@@ -1,0 +1,185 @@
+<% layout("/layout/boilerplate") -%>
+
+  <style>
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5em;
+      align-items: center;
+      white-space: nowrap;
+      margin: 1rem 0;
+
+    }
+
+    .filter {
+      text-align: center;
+      opacity: 0.7;
+      transition: all 0.2s ease;
+    }
+
+    .filter:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    .filter p {
+      font-size: 0.8rem;
+      margin-top: 0.4rem;
+
+    }
+
+    .filter i {
+      font-size: 1.3rem;
+    }
+
+    .tax-info {
+      display: none;
+
+    }
+
+    .text-toggle {
+      border: 1px solid black;
+      border-radius: 1rem;
+      height: 3rem;
+      padding: 1rem;
+      display: flex;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .filter {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .filter:hover {
+      color: #fe424d;
+    }
+  </style>
+
+  <div class="filters">
+
+    <a href="/listings" class="filter">
+      <i class="fa-solid fa-border-all"></i>
+      <p>All</p>
+    </a>
+
+    <a href="/listings?category=Trending" class="filter">
+      <i class="fa-solid fa-fire"></i>
+      <p>Trending</p>
+    </a>
+
+    <a href="/listings?category=Rooms" class="filter">
+      <i class="fa-solid fa-bed"></i>
+      <p>Rooms</p>
+    </a>
+
+    <a href="/listings?category=Pet Friendly" class="filter">
+      <i class="fa-solid fa-paw"></i>
+      <p>Pet Friendly</p>
+    </a>
+
+    <a href="/listings?category=Photography" class="filter">
+      <i class="fa-solid fa-camera"></i>
+      <p>Photography</p>
+    </a>
+
+    <a href="/listings?category=Beach" class="filter">
+      <i class="fa-solid fa-umbrella-beach"></i>
+      <p>Beach</p>
+    </a>
+
+    <a href="/listings?category=Mountains" class="filter">
+      <i class="fa-solid fa-mountain"></i>
+      <p>Mountains</p>
+    </a>
+
+    <a href="/listings?category=Camping" class="filter">
+      <i class="fa-solid fa-campground"></i>
+      <p>Camping</p>
+    </a>
+
+    <a href="/listings?category=Cabins" class="filter">
+      <i class="fa-solid fa-house"></i>
+      <p>Cabins</p>
+    </a>
+
+    <a href="/listings?category=Forest" class="filter">
+      <i class="fa-solid fa-tree"></i>
+      <p>Forest</p>
+    </a>
+
+    <a href="/listings?category=Lakefront" class="filter">
+      <i class="fa-solid fa-water"></i>
+      <p>Lakefront</p>
+    </a>
+
+    <a href="/listings?category=City" class="filter">
+      <i class="fa-solid fa-city"></i>
+      <p>City</p>
+    </a>
+
+    <a href="/listings?category=Luxury" class="filter">
+      <i class="fa-solid fa-gem"></i>
+      <p>Luxury</p>
+    </a>
+
+    <a href="/listings?category=Arctic" class="filter">
+      <i class="fa-regular fa-snowflake"></i>
+      <p>Arctic</p>
+    </a>
+
+    <a href="/listings?category=Castles" class="filter">
+      <i class="fa-solid fa-chess-rook"></i>
+      <p>Castles</p>
+    </a>
+
+
+    <div class="text-toggle">
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Taxes</label>
+      </div>
+    </div>
+  </div>
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4 mt-3">
+
+    <% for(let listing of allListing){ %>
+
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+
+          <div class="card col listing-card h-100">
+
+            <img src="<%= listing.image.url %>" class="card-img-top" style="height: 20rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <b>
+                  <%= listing.title %>
+                </b> <br />
+                <span class="badge rounded-pill text-bg-dark">
+                  <%= listing.category %>
+                </span>
+
+                &#8377;<%= listing.price.toLocaleString("en-IN")%> /night <i class="tax-info"> &nbsp; &nbsp; +18%
+                    GSt</i>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <% } %>
+  </div>
+
+  <script>
+    const taxSwitch = document.getElementById("flexSwitchCheckDefault");
+
+    taxSwitch.addEventListener("change", () => {
+      const taxInfo = document.querySelectorAll(".tax-info");
+
+      taxInfo.forEach(info => {
+        info.style.display = taxSwitch.checked ? "inline" : "none";
+      });
+    });
+
+  </script>
