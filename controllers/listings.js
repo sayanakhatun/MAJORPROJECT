@@ -32,7 +32,6 @@ module.exports.index = async (req, res) => {
   res.render("listings/new.ejs");
 }
 
-
 module.exports.createListing = async (req, res) => {
 console.log(req.body);
  const result = await geocoding.forward(

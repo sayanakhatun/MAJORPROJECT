@@ -101,17 +101,19 @@ app.use("/listings", listingRouter );
   res.redirect("/listings");
 });
  app.use("/", userRouter);
- 
  app.use("/wishlist", wishlistRouter);
  
  
  app.all(/(.*)/, (req, res, next)=>{
   next(new ExpressError(404, "page not found!"));
  });
+
 app.use((err, req, res, next)=>{
+  console.error(err);
   let{ statusCode = 500, message = "Something went wrong!" } = err;
   res.status(statusCode).render("error.ejs",{message});
 });
+
  app.listen(8080,() => {
   console.log("server is listening to port 8080");
  });
