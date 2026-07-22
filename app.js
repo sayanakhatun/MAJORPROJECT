@@ -59,9 +59,9 @@ main()
     console.log(("Error in MONGO SESSION STORE", err));
   })
 
-
 const sessionoption = {
- secret:process.env.SECRET,
+ store,
+secret:process.env.SECRET,
 resave:false,
 saveUninitialized: true,
 cookie:{
@@ -83,7 +83,6 @@ passport.deserializeUser(User.deserializeUser());
  
 
 app.use((req, res, next)=>{
-  console.log("User =>", req.user);
 res.locals.success = req.flash("success");
 res.locals.error = req.flash("error");
 res.locals.currUser = req.user; 
@@ -92,11 +91,17 @@ res.locals.currUser = req.user;
 next();
 });
 
+
 app.use("/listings", listingRouter );
  app.use("/listings/:id/reviews",reviewRouter);
   app.use("/listings/:id/booking", bookingRoutes);
   app.use("/booking", bookingRoutes);
+
+  app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
  app.use("/", userRouter);
+ 
  app.use("/wishlist", wishlistRouter);
  
  
